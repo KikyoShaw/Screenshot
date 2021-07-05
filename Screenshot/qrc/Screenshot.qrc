@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/Screenshot">
+        <file>control.jpg</file>
+        <file>ico_gb_black.png</file>
+    </qresource>
+</RCC>

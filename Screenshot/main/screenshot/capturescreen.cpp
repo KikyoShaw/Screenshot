@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QDialog>
 #include <QClipboard>
+#include "controlwidget.h"
 
 // 选中矩形8个拖拽点小矩形的宽高;
 #define STRETCH_RECT_WIDTH 6

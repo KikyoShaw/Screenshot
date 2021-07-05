@@ -58,6 +58,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Screenshot\main\screenshot;$(SolutionDir)Screenshot\main\imageview;.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Screenshot\main\screenshot;$(SolutionDir)Screenshot\main\imageview;.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -85,20 +95,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="Screenshot.qrc" />
-    <QtUic Include="controlwidget.ui" />
-    <QtUic Include="Screenshot.ui" />
-    <QtMoc Include="Screenshot.h" />
-    <ClCompile Include="capturescreen.cpp" />
-    <ClCompile Include="controlwidget.cpp" />
-    <ClCompile Include="Screenshot.cpp" />
-    <ClCompile Include="main.cpp" />
+    <QtUic Include="main\imageview\showImage.ui" />
+    <QtUic Include="main\Screenshot.ui" />
+    <QtUic Include="main\screenshot\controlwidget.ui" />
+    <ClCompile Include="main\imageview\imageView.cpp" />
+    <ClCompile Include="main\imageview\LabelGIF.cpp" />
+    <ClCompile Include="main\imageview\showImage.cpp" />
+    <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="main\Screenshot.cpp" />
+    <ClCompile Include="main\screenshot\capturescreen.cpp" />
+    <ClCompile Include="main\screenshot\controlwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="capturescreen.h" />
+    <QtMoc Include="main\imageview\imageView.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="controlwidget.h" />
+    <QtMoc Include="main\imageview\showImage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="main\imageview\LabelGIF.h" />
+    <QtMoc Include="main\Screenshot.h" />
+    <QtMoc Include="main\screenshot\capturescreen.h" />
+    <QtMoc Include="main\screenshot\controlwidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="qrc\Screenshot.qrc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

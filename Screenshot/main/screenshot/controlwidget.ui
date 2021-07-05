@@ -60,8 +60,8 @@ background-color:transparent;</string>
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="Screenshot.qrc">
-       <normaloff>:/Screenshot/qrc/ico_gb_black.png</normaloff>:/Screenshot/qrc/ico_gb_black.png</iconset>
+      <iconset resource="../../qrc/Screenshot.qrc">
+       <normaloff>:/Screenshot/ico_gb_black.png</normaloff>:/Screenshot/ico_gb_black.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -101,8 +101,8 @@ background-color:transparent;</string>
       <string>完成</string>
      </property>
      <property name="icon">
-      <iconset resource="Screenshot.qrc">
-       <normaloff>:/Screenshot/qrc/control.jpg</normaloff>:/Screenshot/qrc/control.jpg</iconset>
+      <iconset>
+       <normaloff>../../qrc/control.jpg</normaloff>../../qrc/control.jpg</iconset>
      </property>
      <property name="flat">
       <bool>true</bool>
@@ -112,7 +112,7 @@ background-color:transparent;</string>
   </layout>
  </widget>
  <resources>
-  <include location="Screenshot.qrc"/>
+  <include location="../../qrc/Screenshot.qrc"/>
  </resources>
  <connections/>
 </ui>

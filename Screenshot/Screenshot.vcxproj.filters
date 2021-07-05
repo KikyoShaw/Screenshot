@@ -1,63 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
     </Filter>
     <Filter Include="Translation Files">
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{968f1484-6073-430e-893e-d0ff57e26feb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\screenshot">
+      <UniqueIdentifier>{663e440a-4e79-4550-a32f-5bf176ce2359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\imageview">
+      <UniqueIdentifier>{0d250e22-992f-4bf6-a2d5-e8e4dcf5c938}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="Screenshot.qrc">
+    <ClCompile Include="main\imageview\imageView.cpp">
+      <Filter>main\imageview</Filter>
+    </ClCompile>
+    <ClCompile Include="main\imageview\showImage.cpp">
+      <Filter>main\imageview</Filter>
+    </ClCompile>
+    <ClCompile Include="main\screenshot\capturescreen.cpp">
+      <Filter>main\screenshot</Filter>
+    </ClCompile>
+    <ClCompile Include="main\screenshot\controlwidget.cpp">
+      <Filter>main\screenshot</Filter>
+    </ClCompile>
+    <ClCompile Include="main\main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="main\Screenshot.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="main\imageview\LabelGIF.cpp">
+      <Filter>main\imageview</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="main\imageview\imageView.h">
+      <Filter>main\imageview</Filter>
+    </QtMoc>
+    <QtMoc Include="main\imageview\showImage.h">
+      <Filter>main\imageview</Filter>
+    </QtMoc>
+    <QtMoc Include="main\imageview\LabelGIF.h">
+      <Filter>main\imageview</Filter>
+    </QtMoc>
+    <QtMoc Include="main\screenshot\controlwidget.h">
+      <Filter>main\screenshot</Filter>
+    </QtMoc>
+    <QtMoc Include="main\Screenshot.h">
+      <Filter>main</Filter>
+    </QtMoc>
+    <QtMoc Include="main\screenshot\capturescreen.h">
+      <Filter>main\screenshot</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="main\imageview\showImage.ui">
+      <Filter>main\imageview</Filter>
+    </QtUic>
+    <QtUic Include="main\screenshot\controlwidget.ui">
+      <Filter>main\screenshot</Filter>
+    </QtUic>
+    <QtUic Include="main\Screenshot.ui">
+      <Filter>main</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="qrc\Screenshot.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="Screenshot.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="Screenshot.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="Screenshot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="capturescreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="controlwidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="capturescreen.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="controlwidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="controlwidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>

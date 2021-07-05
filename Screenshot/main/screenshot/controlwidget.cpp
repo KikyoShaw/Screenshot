@@ -17,13 +17,13 @@ ControlWidget::~ControlWidget()
 {
 }
 
-//æ’¤é”€æˆªå›¾æŒ‰é’®
+//³·Ïú½ØÍ¼°´Å¥
 void ControlWidget::cancelBtn_slot()
 {
 	emit sigCancelPixmap();
 }
 
-//å®ŒæˆæŒ‰é’®å°†æˆªå›¾ä¿å­˜åˆ°å‰ªè´´æ¿
+//Íê³É°´Å¥½«½ØÍ¼±£´æµ½¼ôÌù°å
 void ControlWidget::finishBtn_slot()
 {
 	emit sigFinishPixmap();

@@ -9,7 +9,8 @@
 #include <QSharedPointer>
 #include <QMenu>
 #include <QBuffer>
-#include "controlwidget.h"
+
+class ControlWidget;
 
 enum CaptureState {
 	InitCapture = 0,

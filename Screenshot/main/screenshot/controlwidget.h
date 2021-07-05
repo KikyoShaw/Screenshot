@@ -7,7 +7,7 @@
 #include <QImage>
 #include "ui_controlwidget.h"
 
-//ä»¿ç…§QQæˆªå›¾çš„æ§åˆ¶é¢æ¿
+//·ÂÕÕQQ½ØÍ¼µÄ¿ØÖÆÃæ°å
 class ControlWidget : public QWidget
 {
     Q_OBJECT
