@@ -1,10 +1,13 @@
 #include "Screenshot.h"
 #include "capturescreen.h"
+#include "showImage.h"
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QtWin>
-
+#include <QFileDialog>
 #include <QScreen>
+#include <QDebug>
+#include <QMessageBox>
 //#include <QDesktopWidget>
 
 static LPWSTR ConvertLPWSTRToLPSTR(const char* szStr)
@@ -17,24 +20,28 @@ static LPWSTR ConvertLPWSTRToLPSTR(const char* szStr)
 }
 
 Screenshot::Screenshot(QWidget *parent)
-    : QWidget(parent)
+	: QWidget(parent)
 {
     ui.setupUi(this);
 	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
 	setAttribute(Qt::WA_TranslucentBackground);
 
+	ui.label_image->installEventFilter(this);
+
 	connect(ui.pushButton_close, &QPushButton::clicked, this, &QWidget::close);
 	connect(ui.pushButton_screen, &QPushButton::clicked, this, &Screenshot::sltScreenShot);
 	connect(ui.pushButton_newScreen, &QPushButton::clicked, this, [=]() {
-		testScreenShotImage();
-		return;
-
 		hide();
 		QString name = "1.bmp";
 		//截取整个屏幕winId传NULL
 		getScreenShotImage(NULL);
+		saveScreenShotBMP(name.toStdString().c_str(), NULL);
 		show();
+
+		//testScreenShotImage();
 	});
+
+	connect(ui.pushButton_look, &QPushButton::clicked, this, &Screenshot::sltOpenFileImage);
 }
 
 Screenshot::~Screenshot()
@@ -88,6 +95,15 @@ void Screenshot::saveScreenShotBMP(const char * filename, HWND hWnd)
 	WriteFile(hFile, &bi, sizeof(BITMAPINFOHEADER), &dwWrite, NULL);
 	WriteFile(hFile, buf, bi.biSizeImage, &dwWrite, NULL);
 	CloseHandle(hFile);
+}
+
+void Screenshot::lookImage(const QString & fileName)
+{
+	m_imageViewer = QSharedPointer<showImage>(new showImage);
+	if (m_imageViewer) {
+		m_imageViewer->toShowImage(fileName);
+		m_imageViewer->show();
+	}
 }
 
 void Screenshot::testScreenShotImage()
@@ -168,6 +184,25 @@ void Screenshot::sltOnCompleteCature(QPixmap pix)
 	}
 }
 
+void Screenshot::sltOpenFileImage()
+{
+	QString fileName = QFileDialog::getOpenFileName(this,
+		"Please choose an image file",
+		"",
+		"All(*.*)");
+	if (fileName.isEmpty()) {
+		qInfo() << "open error " << fileName;
+		return;
+	}
+	QImageReader reader(fileName);
+	reader.setDecideFormatFromContent(true);
+	if (!reader.canRead()){
+		QMessageBox::information(NULL, QStringLiteral("提示"), QStringLiteral("打开文件异常"));
+		return;
+	}
+	lookImage(fileName);
+}
+
 void Screenshot::mouseMoveEvent(QMouseEvent * event)
 {
 	//判断左键是否被按下，只有左键按下了，其返回值就是1(true)
@@ -200,6 +235,22 @@ void Screenshot::keyPressEvent(QKeyEvent * event)
 		sltScreenShot();
 	}
 	QWidget::keyPressEvent(event);
+}
+
+bool Screenshot::eventFilter(QObject * obj, QEvent * event)
+{
+	if (obj == Q_NULLPTR) {
+		return false;
+	}
+	if (obj == ui.label_image && QEvent::MouseButtonPress == event->type()) {
+		auto mouseEvent = dynamic_cast<QMouseEvent*>(event);
+		//左键单击查看图片
+		if (nullptr != mouseEvent && mouseEvent->button() == Qt::LeftButton) {
+			lookImage("1.bmp");
+			return false;
+		}
+	}
+	return QWidget::eventFilter(obj, event);
 }
 
 
