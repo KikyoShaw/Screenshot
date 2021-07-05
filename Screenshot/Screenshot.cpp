@@ -2,6 +2,10 @@
 #include "capturescreen.h"
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QtWin>
+
+#include <QScreen>
+//#include <QDesktopWidget>
 
 static LPWSTR ConvertLPWSTRToLPSTR(const char* szStr)
 {
@@ -22,9 +26,14 @@ Screenshot::Screenshot(QWidget *parent)
 	connect(ui.pushButton_close, &QPushButton::clicked, this, &QWidget::close);
 	connect(ui.pushButton_screen, &QPushButton::clicked, this, &Screenshot::sltScreenShot);
 	connect(ui.pushButton_newScreen, &QPushButton::clicked, this, [=]() {
+		testScreenShotImage();
+		return;
+
+		hide();
 		QString name = "1.bmp";
 		//截取整个屏幕winId传NULL
-		getScreenShotImage(name.toStdString().c_str(), (HWND)winId());
+		getScreenShotImage(NULL);
+		show();
 	});
 }
 
@@ -32,7 +41,7 @@ Screenshot::~Screenshot()
 {
 }
 
-void Screenshot::getScreenShotImage(const char * filename, HWND hWnd)
+void Screenshot::saveScreenShotBMP(const char * filename, HWND hWnd)
 {
 	HDC hdc = CreateDC(ConvertLPWSTRToLPSTR("DISPLAY"), NULL, NULL, NULL);
 	int32_t ScrWidth = 0, ScrHeight = 0;
@@ -68,7 +77,7 @@ void Screenshot::getScreenShotImage(const char * filename, HWND hWnd)
 	char *buf = new char[bi.biSizeImage];
 	BitBlt(hmdc, 0, 0, ScrWidth, ScrHeight, hdc, rect.left, rect.top, SRCCOPY);
 	GetDIBits(hmdc, hBmpScreen, 0L, (DWORD)ScrHeight, buf, (LPBITMAPINFO)&bi, (DWORD)DIB_RGB_COLORS);
-
+	//按照filename保存图片
 	BITMAPFILEHEADER bfh = { 0 };
 	bfh.bfType = ((WORD)('M' << 8) | 'B');
 	bfh.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + bi.biSizeImage;
@@ -79,7 +88,62 @@ void Screenshot::getScreenShotImage(const char * filename, HWND hWnd)
 	WriteFile(hFile, &bi, sizeof(BITMAPINFOHEADER), &dwWrite, NULL);
 	WriteFile(hFile, buf, bi.biSizeImage, &dwWrite, NULL);
 	CloseHandle(hFile);
+}
+
+void Screenshot::testScreenShotImage()
+{
+	//截图方式1(已弃用)
+	//QPixmap pix(QDesktopWidget::screenGeometry().size());
+	//QDesktopWidget::screen().render(&pix);
+
+	//截图方式2
+	QScreen *screen = QGuiApplication::primaryScreen();
+	if (screen) {
+		QPixmap pix = screen->grabWindow(0);
+		sltOnCompleteCature(pix);
+	}
+}
+
+void Screenshot::getScreenShotImage(HWND hWnd)
+{
+	HDC hdc = CreateDC(ConvertLPWSTRToLPSTR("DISPLAY"), NULL, NULL, NULL);
+	int32_t ScrWidth = 0, ScrHeight = 0;
+	RECT rect = { 0 };
+	if (hWnd == NULL)
+	{
+		ScrWidth = GetDeviceCaps(hdc, HORZRES);
+		ScrHeight = GetDeviceCaps(hdc, VERTRES);
+	}
+	else
+	{
+		GetWindowRect(hWnd, &rect);
+		ScrWidth = rect.right - rect.left;
+		ScrHeight = rect.bottom - rect.top;
+	}
+	HDC hmdc = CreateCompatibleDC(hdc);
+
+	HBITMAP hBmpScreen = CreateCompatibleBitmap(hdc, ScrWidth, ScrHeight);
+	HBITMAP holdbmp = (HBITMAP)SelectObject(hmdc, hBmpScreen);
+
+	BITMAP bm;
+	GetObject(hBmpScreen, sizeof(bm), &bm);
+
+	BITMAPINFOHEADER bi = { 0 };
+	bi.biSize = sizeof(BITMAPINFOHEADER);
+	bi.biWidth = bm.bmWidth;
+	bi.biHeight = bm.bmHeight;
+	bi.biPlanes = bm.bmPlanes;
+	bi.biBitCount = bm.bmBitsPixel;
+	bi.biCompression = BI_RGB;
+	bi.biSizeImage = bm.bmHeight * bm.bmWidthBytes;
+	// 图片的像素数据
+	char *buf = new char[bi.biSizeImage];
+	BitBlt(hmdc, 0, 0, ScrWidth, ScrHeight, hdc, rect.left, rect.top, SRCCOPY);
+	GetDIBits(hmdc, hBmpScreen, 0L, (DWORD)ScrHeight, buf, (LPBITMAPINFO)&bi, (DWORD)DIB_RGB_COLORS);
+	//转成QPixMap显示图片
 	hBmpScreen = (HBITMAP)SelectObject(hmdc, holdbmp);
+	QPixmap pix = QtWin::fromHBITMAP(hBmpScreen);
+	sltOnCompleteCature(pix);
 }
 
 void Screenshot::sltScreenShot()
@@ -97,8 +161,10 @@ void Screenshot::sltScreenShot()
 void Screenshot::sltOnCompleteCature(QPixmap pix)
 {
 	if (!pix.isNull()) {
-		ui.label_image->setPixmap(pix);
-		ui.label_image->setScaledContents(true);
+		//ui.label_image->setPixmap(pix);
+		//ui.label_image->setScaledContents(true);
+		ui.label_image->setPixmap(pix.scaled(ui.label_image->size(),
+			Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	}
 }
 

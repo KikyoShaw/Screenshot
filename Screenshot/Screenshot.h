@@ -16,7 +16,10 @@ public:
 	~Screenshot();
 
 private:
-	void getScreenShotImage(const char* filename, HWND hWnd);
+	void testScreenShotImage();
+	void getScreenShotImage(HWND hWnd);
+	//保存图片在当前目录下
+	void saveScreenShotBMP(const char* filename, HWND hWnd);
 
 private slots:
 	void sltScreenShot();

@@ -82,7 +82,7 @@ QPushButton
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="text">
-       <string>截图</string>
+       <string>QQ截图</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_close">
